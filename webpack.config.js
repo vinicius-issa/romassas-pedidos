@@ -1,5 +1,21 @@
+const dotenv = require("dotenv");
+
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { DefinePlugin } = require("webpack");
+
+const fileEnv = dotenv.config().parsed;
+
+// reduce it to a nice object, the same as before (but with the variables from the file)
+const envKeys = Object.keys(fileEnv).reduce((prev, next) => {
+  prev[`${next}`] = JSON.stringify(fileEnv[next]);
+
+  return prev;
+}, {});
+
+const config = {
+  "process.env": envKeys
+};
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -69,7 +85,8 @@ module.exports = {
         minifyCSS: true,
         minifyURLs: true
       }
-    })
+    }),
+    new DefinePlugin(config)
   ],
   devtool: "inline-source-map"
 };
