@@ -1,5 +1,5 @@
-const path = require("path")
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   entry: "./src/index.tsx",
@@ -7,7 +7,7 @@ module.exports = {
   output: {
     filename: "bundle.js",
     path: path.resolve("dist"),
-    publicPath: "/",
+    publicPath: "/"
   },
   devServer: {
     hot: true,
@@ -17,14 +17,25 @@ module.exports = {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
       "Access-Control-Allow-Headers":
-        "X-Requested-With, content-type, Authorization",
+        "X-Requested-With, content-type, Authorization"
     },
     onListening(server) {
-      console.log("Listening on port:", 3000)
-    },
+      console.log("Listening on port:", 3000);
+    }
   },
   module: {
     rules: [
+      {
+        test: /\.s[ac]ss$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader"
+        ]
+      },
       {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
@@ -32,21 +43,17 @@ module.exports = {
       },
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
-        test: /\.css$/i,
-        use: ["style-loader", "css-loader"],
-      },
-    ],
+        use: "ts-loader",
+        exclude: /node_modules/
+      }
+    ]
   },
   resolve: {
-    extensions: ['.tsx', '.ts', '.jsx', '.js', '.css']
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".css"]
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Output Management',
+      title: "Output Management",
       filename: "index.html", // output file
       template: path.join("public", "index.html"),
       inject: true,
@@ -60,9 +67,9 @@ module.exports = {
         keepClosingSlash: true,
         minifyJS: true,
         minifyCSS: true,
-        minifyURLs: true,
-      },
-    }),
+        minifyURLs: true
+      }
+    })
   ],
-  devtool: 'inline-source-map'
-}
+  devtool: "inline-source-map"
+};
