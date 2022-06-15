@@ -1,13 +1,15 @@
 import React from "react";
+import { Routes, Route } from "react-router-dom";
 import "./app.scss";
 
 export default function App() {
   const t1 = process.env.REACT_APP_TEST;
   const t2 = process.env.TEST;
   return (
-    <div>
-      <h1>My React Boilerplate</h1>
-      <h2>{`${t1}-${t2}`}</h2>
-    </div>
+    <Routes>
+      <Route path="/" element={<div>Root</div>} />
+      <Route path="/login" element={<div>Login</div>} />
+      <Route path="/*" element={<div>Essa página não existe</div>} />
+    </Routes>
   );
 }
