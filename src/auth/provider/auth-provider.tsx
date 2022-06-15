@@ -14,10 +14,10 @@ export type TAuthProviderState = {
   getUser: () => User | undefined;
   logoff: () => void;
   sendPhoneNumber: (phoneNumber: string) => Promise<void>;
-  sendPhoneCode: (code: number) => Promise<number>;
+  sendPhoneCode: (code: number) => Promise<string>;
 };
 
-const SOME_NUMBER = 10;
+const SOME_STRING = "ABcd10";
 
 const INITIAL_STATE = {
   isLogged: false,
@@ -25,12 +25,12 @@ const INITIAL_STATE = {
   getUser: () => undefined,
   logoff: () => {},
   sendPhoneNumber: async (phoneNumber: string) => {},
-  sendPhoneCode: async (code: number) => SOME_NUMBER
+  sendPhoneCode: async (code: number) => SOME_STRING
 };
 
 export const AuthContext = createContext<TAuthProviderState>(INITIAL_STATE);
 
-const AuthProvider = ({ children }: TAuthProviderProps) => {
+const AuthProvider = ({ children, ssoDatasource }: TAuthProviderProps) => {
   const [user, setUser] = useState<User | undefined>();
 
   const isLogged = useMemo(() => !!user, [user]);
@@ -42,23 +42,17 @@ const AuthProvider = ({ children }: TAuthProviderProps) => {
   };
 
   const authenticate = async (uuid: string) => {
-    setUser({
-      name: "User Mock",
-      phone: "123456",
-      role: [],
-      address: {
-        cep: "14654-123",
-        state: "SP",
-        city: "Some City",
-        number: "43",
-        street: "Some street"
-      }
-    });
+    const user = await ssoDatasource.getUser(uuid);
+    setUser(user);
   };
 
-  const sendPhoneNumber = async (phoneNumber: string) => {};
+  const sendPhoneNumber = async (phoneNumber: string) => {
+    await ssoDatasource.sendPhoneNumber(phoneNumber);
+  };
 
-  const sendPhoneCode = async (code: number) => SOME_NUMBER;
+  const sendPhoneCode = async (code: number) => {
+    return await ssoDatasource.sendPhoneCode(code);
+  };
 
   return (
     <AuthContext.Provider
