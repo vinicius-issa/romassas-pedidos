@@ -1,7 +1,7 @@
 import React from "react";
 import "@testing-library/jest-dom";
-import { render, within } from "@testing-library/react";
-import App from "./App";
+import { render } from "@testing-library/react";
+import App from "./app";
 
 describe("App", function() {
   it("should display App", function() {
