@@ -1,9 +1,11 @@
 import React, { createContext, useMemo, useState } from "react";
 
 import { User } from "../domain/entities";
+import { SsoDatasource } from "../interface/sso-datasource";
 
 type TAuthProviderProps = {
   children?: React.ReactNode;
+  ssoDatasource: SsoDatasource;
 };
 
 export type TAuthProviderState = {
