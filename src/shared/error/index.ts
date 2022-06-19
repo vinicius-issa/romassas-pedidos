@@ -1,4 +1,4 @@
-import { CustomError } from "../template";
+import { CustomError } from "../interface";
 
 export class UnauthorizedError extends Error implements CustomError {
   public readonly message: string;
