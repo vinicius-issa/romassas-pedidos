@@ -9,11 +9,12 @@ function sleep(duration) {
 }
 
 export class MockSsoDatasource implements SsoDatasource {
-  private readonly FAKE_CODE = 1324;
+  private readonly FAKE_CODE = 123456;
   private readonly FAKE_UUID = "36564136873651132";
 
   async sendPhoneCode(code: number): Promise<string> {
     await sleep(1000);
+    console.log("CODE", code);
     if (code !== this.FAKE_CODE) throw new UnauthorizedError();
     return this.FAKE_UUID;
   }

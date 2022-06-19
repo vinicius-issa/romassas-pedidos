@@ -10,7 +10,7 @@ const Login = () => {
   const [code, setCode] = useState<string>("");
   const [showPhoneNumber, setShowPhoneNumber] = useState<boolean>(true);
   const toast = useToast();
-  const { sendPhoneNumber } = useContext(AuthContext);
+  const { sendPhoneNumber, sendPhoneCode } = useContext(AuthContext);
 
   const sendPhone = async (phone: string) => {
     sendPhoneNumber(phone)
@@ -29,6 +29,30 @@ const Login = () => {
       });
   };
 
+  const sendCode = async (code: number) => {
+    sendPhoneCode(code)
+      .then(() => {
+        toast({
+          title: "Sucesso",
+          description: "Logado com sucesso",
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+          position: "top"
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Código inválido",
+          description: "Favor inserir o código enviado via sms",
+          status: "error",
+          duration: 6000,
+          isClosable: true,
+          position: "top"
+        });
+      });
+  };
+
   return (
     <Box bg="#ddd" minH="100vh" display="flex" flexDirection="column">
       <Center bg="white" borderBottomRadius="30px" p="10px">
@@ -37,7 +61,7 @@ const Login = () => {
       {showPhoneNumber ? (
         <PhoneNumber sendPhoneNumber={sendPhone} />
       ) : (
-        <CodeConfirmation />
+        <CodeConfirmation sendCodeNumber={sendCode} />
       )}
     </Box>
   );
