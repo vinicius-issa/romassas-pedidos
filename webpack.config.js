@@ -58,6 +58,13 @@ module.exports = {
         use: "babel-loader"
       },
       {
+        test: /\.(png|jpe?g|gif)$/i,
+        loader: "file-loader",
+        options: {
+          name: "assets/[name].[ext]"
+        }
+      },
+      {
         test: /\.tsx?$/,
         use: "ts-loader",
         exclude: /node_modules/
@@ -65,7 +72,7 @@ module.exports = {
     ]
   },
   resolve: {
-    extensions: [".tsx", ".ts", ".jsx", ".js", ".css"]
+    extensions: [".tsx", ".ts", ".jsx", ".js", ".css", ".png", ".jpg"]
   },
   plugins: [
     new HtmlWebpackPlugin({
