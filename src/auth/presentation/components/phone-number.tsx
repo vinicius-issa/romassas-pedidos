@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Box, Text, Input, Button, useToast } from "@reverb-ui/react";
 import { AuthContext } from "../../provider/auth-provider";
 import { Loading } from "../../../shared/presentation/components";
+import IsLoading from "../../../shared/presentation/components/is-loading";
 
 type IProps = {
   sendPhoneNumber: (phone: string) => Promise<void>;
@@ -50,10 +51,9 @@ const PhoneNumber = ({ sendPhoneNumber }: IProps) => {
   };
 
   return (
-    <>
-      {loading ? (
-        <Loading />
-      ) : (
+    <IsLoading
+      loading={loading}
+      Component={
         <Box p="30px" flex="1" display="flex" flexDirection="column">
           <Text color="#F8774A" fontSize="2rem" fontWeight="bold">
             Para acessar, <br /> entre com seu
@@ -78,8 +78,8 @@ const PhoneNumber = ({ sendPhoneNumber }: IProps) => {
             </Button>
           </Box>
         </Box>
-      )}
-    </>
+      }
+    />
   );
 };
 
